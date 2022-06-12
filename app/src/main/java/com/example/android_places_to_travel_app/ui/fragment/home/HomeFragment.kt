@@ -1,11 +1,11 @@
-package com.example.android_places_to_travel_app.ui.fragment
+package com.example.android_places_to_travel_app.ui.fragment.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.android_places_to_travel_app.databinding.FragmentHomeBinding
+import com.example.android_places_to_travel_app.ui.fragment.BaseFragment
 
 class HomeFragment: BaseFragment() {
 
@@ -23,7 +23,11 @@ class HomeFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView = binding.recyclerView
+        val homeAdapter = HomeFragmentAdapter{
+            // todo handle item clicked
+        }
+        binding.recyclerView.adapter = homeAdapter
+        homeAdapter.setData(attractions)
     }
 
     override fun onDestroy() {
