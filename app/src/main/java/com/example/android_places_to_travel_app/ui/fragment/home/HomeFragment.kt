@@ -23,8 +23,9 @@ class HomeFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeAdapter = HomeFragmentAdapter{
-            // todo handle item clicked
+        val homeAdapter = HomeFragmentAdapter{ attractionId ->
+            val navDirections = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
+            navController.navigate(navDirections)
         }
         binding.recyclerView.adapter = homeAdapter
         homeAdapter.setData(attractions)
@@ -34,5 +35,4 @@ class HomeFragment: BaseFragment() {
         super.onDestroy()
         _binding = null
     }
-
 }
