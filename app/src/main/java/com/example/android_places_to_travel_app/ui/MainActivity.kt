@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.android_places_to_travel_app.R
 import com.example.android_places_to_travel_app.data.Attraction
 import com.example.android_places_to_travel_app.data.AttractionsResponse
@@ -14,6 +17,8 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     val attractionsList: List<Attraction> by lazy {
         parseAttractions()
@@ -26,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun parseAttractions(): List<Attraction> {

@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import com.example.android_places_to_travel_app.R
+import com.example.android_places_to_travel_app.data.Attraction
 import com.example.android_places_to_travel_app.databinding.FragmentAttractionDetailBinding
+import com.squareup.picasso.Picasso
 
 class AttractionDetailFragment: BaseFragment() {
 
@@ -13,6 +16,9 @@ class AttractionDetailFragment: BaseFragment() {
     private val binding get() = _binding!!
 
     private val saveArgs: AttractionDetailFragmentArgs by navArgs()
+    private val attraction: Attraction by lazy {
+        attractions.find {it.id == saveArgs.attractionId}!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +32,17 @@ class AttractionDetailFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.button.text = saveArgs.attractionId
+        binding.titleTextView.text = attraction.title
+        Picasso.get()
+            .load(attraction.image_url)
+            .error(R.drawable.error_icon)
+            .into(binding.headerImageView)
+        binding.descriptionTextView.text = attraction.description
+        binding.monthsToVisitTextView.text = attraction.months_to_visit
+        binding.numberOfFactsTextView.text = "${attraction.facts.size} facts"
+        binding.numberOfFactsTextView.setOnClickListener {
+            // todo
+        }
     }
 
     override fun onDestroy() {
