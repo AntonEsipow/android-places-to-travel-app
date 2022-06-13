@@ -1,5 +1,6 @@
 package com.example.android_places_to_travel_app.ui.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -46,7 +47,20 @@ class AttractionDetailFragment: BaseFragment() {
         binding.monthsToVisitTextView.text = attraction.months_to_visit
         binding.numberOfFactsTextView.text = "${attraction.facts.size} facts"
         binding.numberOfFactsTextView.setOnClickListener {
-            // todo
+            val stringBuilder = StringBuilder("")
+            attraction.facts.forEach {
+                stringBuilder.append("\u2022 $it")
+                stringBuilder.append("\n\n")
+            }
+            val message = stringBuilder.toString().substring(0, stringBuilder.toString().lastIndexOf("\n\n"))
+
+            AlertDialog.Builder(requireContext())
+                .setTitle("${attraction.title} Facts")
+                .setMessage(message)
+                .setPositiveButton("Ok") { dialog, which ->
+                    // run your code
+                }
+                .show()
         }
     }
 
