@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.android_places_to_travel_app.R
 import com.example.android_places_to_travel_app.databinding.FragmentHomeBinding
 import com.example.android_places_to_travel_app.ui.fragment.BaseFragment
 
@@ -24,11 +25,14 @@ class HomeFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val homeAdapter = HomeFragmentAdapter{ attractionId ->
-            val navDirections = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
-            navController.navigate(navDirections)
+            activityViewModel.onAttractionSelected(attractionId)
+            navController.navigate(R.id.action_homeFragment_to_attractionDetailFragment)
         }
         binding.recyclerView.adapter = homeAdapter
-        homeAdapter.setData(attractions)
+
+        activityViewModel.attractionListLiveData.observe(viewLifecycleOwner) { attractions ->
+            homeAdapter.setData(attractions)
+        }
     }
 
     override fun onDestroy() {
